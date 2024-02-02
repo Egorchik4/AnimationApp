@@ -28,7 +28,7 @@ class CustomView @JvmOverloads constructor(
 	)
 	private var startAngle = 0f
 	private val sweepAngle = 360f / colors.size
-	private var animateStep = 0f
+	private var animateStep = 0
 	private var getPixelX = 0f
 	private var getPixelY = 0f
 	private var bitmap: Bitmap? = null
@@ -95,8 +95,8 @@ class CustomView @JvmOverloads constructor(
 		canvas.drawRect(centerX - 20f, startY + 20f, centerX + 20f, centerY + 20f, paintCursor)
 	}
 
-	fun showAnimationCircle() {
-		animateStep += 0.01f
+	fun rotateBaraban(step: Int) {
+		animateStep += step
 		invalidate()
 	}
 
@@ -119,8 +119,8 @@ class CustomView @JvmOverloads constructor(
 	}
 
 	fun reset() {
-		animateStep = 0f
 		startAngle = 0f
+		animateStep = 0
 		this.bitmap = null
 		this.text = null
 		invalidate()
