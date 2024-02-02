@@ -1,5 +1,6 @@
 package com.example.animationapp.ui
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -19,7 +20,6 @@ class MainActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
-
 		setListeners()
 		setObserver()
 	}
@@ -66,11 +66,16 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun handleContentSpin() {
-		val randomDuration = (100..10000).random()
-		for (i in 0..randomDuration) {
-			binding.baraban.showAnimationCircle()
+		val randomAngle: Int = (100..10000).random()
+		val animator = ObjectAnimator.ofInt(0, randomAngle)
+		animator.addUpdateListener {
+			val actualRotation = it.animatedValue as Int
+			binding.baraban.rotateBaraban(actualRotation)
+			if (randomAngle == actualRotation) {
+				viewModel.clickColor(binding.baraban.getColorOfCursor())
+			}
 		}
-		viewModel.clickColor(binding.baraban.getColorOfCursor())
+		animator.start()
 	}
 
 	private fun handleContentPicture(state: AnimationState.ContentPicture) {
